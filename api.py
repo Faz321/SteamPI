@@ -2,7 +2,7 @@
 import json
 import requests
 
-API_KEY = ""
+API_KEY = "5A0D4B191D567190BEE11F6B57824F32"
 print("-" * 26,"\n")
 print("Steam Player Investigation\n")
 print("-" * 26,"\n")
