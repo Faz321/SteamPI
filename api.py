@@ -81,6 +81,8 @@ elif gamesCount >= 10:
     smurfScore += 5
 print("\n"," "*15,100 - smurfScore, "%")
 
+
+##Maybe use webcrawler for these:
 ##Bans Score
 ##Requires different API key maybe steamworks key?
 ##requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key="+API_KEY+"&steamid="+steamID)
