@@ -23,6 +23,7 @@ def get_steam_info(profile_url):
     # 6 - Artwork
     # 7 - Friends
     profileData = soup.findAll('span', class_="profile_count_link_total")
+    profileBans = soup.findAll()
     return profileData
 
 # Fetch and display the badges
@@ -31,7 +32,7 @@ print("Some Information may be hidden")
 print("Profile Awards: ", data[0].text.strip())
 print("Badges: ", data[1].text.strip())
 print("Games: ", data[2].text.strip())
-print("inventory: ", data[3].text.strip())
+print("Inventory: ", data[3].text.strip())
 print("Reviews: ", data[4].text.strip())
 print("Guides: ", data[5].text.strip())
 print("Artwork: ", data[6].text.strip())

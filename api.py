@@ -1,6 +1,7 @@
 
 import json
 import requests
+import Crawler
 
 API_KEY = "5A0D4B191D567190BEE11F6B57824F32"
 print("-" * 26,"\n")
@@ -103,7 +104,7 @@ print("\n"," "*15,100 - smurfScore, "%")
 ## https://partner.steam-api.com/ISteamUser/GetUserGroupList/v1/
 
 ##Player Badges
-##steamworks key
+##steamworks key / Webcrawler
 ##https://partner.steam-api.com/IPlayerService/GetBadges/v1/
 
 
