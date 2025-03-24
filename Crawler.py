@@ -27,22 +27,26 @@ def get_steam_info(profile_url):
 
     #Retrieves Profile Award Number
     profileAwardsList = soup.find_all('div', class_="profile_awards")
-    if profileAwardList:
-        profileAwardList = profileAwardsList[0].find_all('span', class_="profile_count_link_total")
-        profileAwardNumber = profileAwardList[0].text.strip()
+    if len(profileAwardsList):
+        profileAwardsList = profileAwardsList[0].find_all('span', class_="profile_count_link_total")
+        profileAwardNumber = profileAwardsList[0].text.strip()
         print("Profile Awards: ", profileAwardNumber)
     else:
         print("Profile Award not found!")
 
-    profileClasses = soup.find_all('span', class_="count_link_label")
-    profileLvl = soup.find_all('span', class_="friendPlayerLevelNum")
+    profileLvlList = soup.find_all('span', class_="friendPlayerLevelNum")
+    if profileLvlList:
+        profileLvl = profileLvlList[0].text.strip()
+        print("Steam level not found: ",profileLvl)
+    else:
+        print("Steam level not found")
 
     profileData = soup.find_all('span', class_="profile_count_link_total")
+    profileClasses = soup.find_all('span', class_="count_link_label")
     print("\nCategories Available:")
     for i in profileClasses:
         print(i.text.strip())
 
-    print("Steam Level: ", profileLvl[0].text.strip())
     #To change, specific tags e.g Badges
     #<span class="count_link_label">Badges</span>
     #Error handling when info hidden
