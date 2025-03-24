@@ -27,11 +27,24 @@ def get_steam_info(profile_url):
     profileLvlList = soup.find_all('span', class_="friendPlayerLevelNum")
     if profileLvlList:
         profileLvl = profileLvlList[0].text.strip()
-        print("Steam level not found: ",profileLvl)
+        print("Steam level: ",profileLvl)
     else:
         print("Steam level not found")
-
-
+    
+    #Retrieves Badges
+    profileBadgeList = soup.find_all('div',class_ ="profile_awards")
+    if profileBadgeList:
+        profileBadgeList = profileBadgeList[0].find_all('span', class_="profile_count_link_total")
+        profileBadgeNumber = profileBadgeList[0].text.strip()
+        print("Number of Badges: ", profileBadgeNumber)
+    else:
+        print("Steam level not found")
+    
+    #Retrieves Groups
+    profileGroupList = soup.find_all('div', class_="profile_group_links profile_count_link_preview_ctn")
+    if profileGroupList:
+        profileGroupNumber = profileGroupList[0]
+        print("Group Number: ", profileGroupNumber)
     #Steam page contains multiple "profile_count_link_total"
     #Indexs:
     # 0 - Profile Awards
@@ -46,7 +59,8 @@ def get_steam_info(profile_url):
     profileClasses = soup.find_all('span', class_="count_link_label")
     print("\nCategories Available:")
     for i in profileClasses:
-        print(i.text.strip())
+        pass
+        # print(i.text.strip())
 
     #To change, specific tags e.g Badges
     #<span class="count_link_label">Badges</span>
@@ -54,15 +68,17 @@ def get_steam_info(profile_url):
     return profileData
 
 # Fetch and display the badges
-data = get_steam_info('https://steamcommunity.com/profiles/76561199243535006') #Random test profile
-#data = get_steam_info('https://steamcommunity.com/profiles/76561199126077786') #Random test profile
+#data = get_steam_info('https://steamcommunity.com/profiles/76561199243535006') #Random test profile
+data = get_steam_info('https://steamcommunity.com/profiles/76561199126077786') #Random test profile
+
+
 ##shit way to do this error prone:
-print("\nSome Information may be hidden")
-print("Profile Awards: ", data[0].text.strip())
-print("Badges: ", data[1].text.strip())
-print("Games: ", data[2].text.strip())
-print("Inventory: ", data[3].text.strip())
-print("Reviews: ", data[4].text.strip())
-print("Guides: ", data[5].text.strip())
-print("Artwork: ", data[6].text.strip())
-print("Friends: ", data[7].text.strip())
+# print("\nSome Information may be hidden")
+# print("Profile Awards: ", data[0].text.strip())
+# print("Badges: ", data[1].text.strip())
+# print("Games: ", data[2].text.strip())
+# print("Inventory: ", data[3].text.strip())
+# print("Reviews: ", data[4].text.strip())
+# print("Guides: ", data[5].text.strip())
+# print("Artwork: ", data[6].text.strip())
+# print("Friends: ", data[7].text.strip())
