@@ -4,11 +4,21 @@ from bs4 import BeautifulSoup
 
 
 #Crawler takes in profile URL and returns profileData
-#TODO Order of data can be changed, dont hard code data order
+#TODO Fix Bans website uses javascript
 
-def get_steam_info(profile_url):
+def getSteamInfo(steamID):
+    '''
+    Retrieves User info through webcrawler
+
+    Arguements:
+    steamID - string that contains user steamID
+
+    Returns:
+    data - dict containing the user information
+    
+    '''
     data = {}
-    response = requests.get("https://steamcommunity.com/profiles/" + profile_url)
+    response = requests.get("https://steamcommunity.com/profiles/" + steamID)
 
     if response.status_code != 200:
         return f"Error: Unable to access profile (Status Code: {response.status_code})"
@@ -56,7 +66,7 @@ def get_steam_info(profile_url):
 
     #Retrieves Bans
     #Bans require javascript so cant use basic requests
-    bansResponse = requests.get("https://vaclist.net/account/" + profile_url)
+    bansResponse = requests.get("https://vaclist.net/account/" + steamID)
 
     if bansResponse.status_code != 200:
         print (f"Error: Unable to access profile (Status Code: {bansResponse.status_code})")
