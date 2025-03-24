@@ -25,13 +25,14 @@ def get_steam_info(profile_url):
     # 6 - Artwork
     # 7 - Friends
 
-
-
+    #Retrieves Profile Award Number
     profileAwardsList = soup.find_all('div', class_="profile_awards")
-    profileAwardNumber = profileAwardsList[0].find_all('span', class_="profile_count_link_total")
-    profileAwardNumber = profileAwardNumber[0].text.strip()
-
-    print(profileAwardNumber)
+    if profileAwardList:
+        profileAwardList = profileAwardsList[0].find_all('span', class_="profile_count_link_total")
+        profileAwardNumber = profileAwardList[0].text.strip()
+        print("Profile Awards: ", profileAwardNumber)
+    else:
+        print("Profile Award not found!")
 
     profileClasses = soup.find_all('span', class_="count_link_label")
     profileLvl = soup.find_all('span', class_="friendPlayerLevelNum")
