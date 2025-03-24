@@ -23,15 +23,19 @@ def get_steam_info(profile_url):
     # 6 - Artwork
     # 7 - Friends
 
-    profileData = soup.findAll('span', class_="profile_count_link_total") 
+    profileData = soup.find_all('span', class_="profile_count_link_total")
+    profileClasses = soup.find_all('span', class_="count_link_label")
+    print("\nCategories Available:")
+    for i in profileClasses:
+        print(i.text.strip())
     #To change, specific tags e.g Badges
     #<span class="count_link_label">Badges</span>
-    profileBans = soup.findAll()
+    #Error handling when info hidden
     return profileData
 
 # Fetch and display the badges
 data = get_steam_info('https://steamcommunity.com/profiles/76561199243535006') #Random test profile
-print("Some Information may be hidden")
+print("\nSome Information may be hidden")
 print("Profile Awards: ", data[0].text.strip())
 print("Badges: ", data[1].text.strip())
 print("Games: ", data[2].text.strip())
