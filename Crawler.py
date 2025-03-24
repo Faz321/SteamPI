@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 
 
 #Crawler takes in profile URL and returns profileData
+#TODO Order of data can be changed, dont hard code data order
+
 def get_steam_info(profile_url):
     response = requests.get(profile_url)
 
@@ -23,11 +25,23 @@ def get_steam_info(profile_url):
     # 6 - Artwork
     # 7 - Friends
 
-    profileData = soup.find_all('span', class_="profile_count_link_total")
+
+
+    profileAwardsList = soup.find_all('div', class_="profile_awards")
+    profileAwardNumber = profileAwardsList[0].find_all('span', class_="profile_count_link_total")
+    profileAwardNumber = profileAwardNumber[0].text.strip()
+
+    print(profileAwardNumber)
+
     profileClasses = soup.find_all('span', class_="count_link_label")
+    profileLvl = soup.find_all('span', class_="friendPlayerLevelNum")
+
+    profileData = soup.find_all('span', class_="profile_count_link_total")
     print("\nCategories Available:")
     for i in profileClasses:
         print(i.text.strip())
+
+    print("Steam Level: ", profileLvl[0].text.strip())
     #To change, specific tags e.g Badges
     #<span class="count_link_label">Badges</span>
     #Error handling when info hidden
@@ -35,6 +49,7 @@ def get_steam_info(profile_url):
 
 # Fetch and display the badges
 data = get_steam_info('https://steamcommunity.com/profiles/76561199243535006') #Random test profile
+#data = get_steam_info('https://steamcommunity.com/profiles/76561199126077786') #Random test profile
 print("\nSome Information may be hidden")
 print("Profile Awards: ", data[0].text.strip())
 print("Badges: ", data[1].text.strip())
