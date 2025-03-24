@@ -91,19 +91,22 @@ print("\n"," "*15,100 - smurfScore, "%")
 
 
 ##Maybe use webcrawler for these:
-##Bans Score
+##Bans Score - Cant use steam webcrawler, only devs can access info
+## Can use webcrawler on seperate ban tracking website
 ##Requires different API key maybe steamworks key?
 ##requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key="+API_KEY+"&steamid="+steamID)
 
-##Steam level
-##requires steamworks keys
-##response = requests.get("https://partner.steam-api.com/IPlayerService/GetSteamLevel/v1?key="+API_KEY+"&steamid="+steamID)
-
-##Group List
+##Group List - Found with Webcrawler
 ##steamworks keys
 ## https://partner.steam-api.com/ISteamUser/GetUserGroupList/v1/
 
-##Player Badges
+##Steam level - Found with Webcrawler
+##requires steamworks keys
+##response = requests.get("https://partner.steam-api.com/IPlayerService/GetSteamLevel/v1?key="+API_KEY+"&steamid="+steamID)
+
+
+
+##Player Badges - Found with Webcrawler
 ##steamworks key / Webcrawler
 ##https://partner.steam-api.com/IPlayerService/GetBadges/v1/
 
