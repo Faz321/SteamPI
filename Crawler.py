@@ -32,7 +32,7 @@ def get_steam_info(profile_url):
         print("Steam level not found")
     
     #Retrieves Badges
-    profileBadgeList = soup.find_all('div',class_ ="profile_awards")
+    profileBadgeList = soup.find_all('div',class_ ="profile_badges")
     if profileBadgeList:
         profileBadgeList = profileBadgeList[0].find_all('span', class_="profile_count_link_total")
         profileBadgeNumber = profileBadgeList[0].text.strip()
@@ -41,10 +41,12 @@ def get_steam_info(profile_url):
         print("Steam level not found")
     
     #Retrieves Groups
-    profileGroupList = soup.find_all('div', class_="profile_group_links profile_count_link_preview_ctn")
+    profileGroupList = soup.find_all('div', class_="profile_group_links")
     if profileGroupList:
-        profileGroupNumber = profileGroupList[0]
+        profileGroupNumber = profileGroupList[0].find_all('span', class_="profile_count_link_total")
+        profileGroupNumber = profileGroupNumber[0].text.strip()
         print("Group Number: ", profileGroupNumber)
+
     #Steam page contains multiple "profile_count_link_total"
     #Indexs:
     # 0 - Profile Awards
