@@ -14,6 +14,24 @@ def get_steam_info(profile_url):
 
     soup = BeautifulSoup(response.text, "html.parser")
 
+    #Retrieves Profile Award Number
+    profileAwardsList = soup.find_all('div', class_="profile_awards")
+    if len(profileAwardsList):
+        profileAwardsList = profileAwardsList[0].find_all('span', class_="profile_count_link_total")
+        profileAwardNumber = profileAwardsList[0].text.strip()
+        print("Profile Awards: ", profileAwardNumber)
+    else:
+        print("Profile Award not found!")
+
+    #Retrieves Steam Level
+    profileLvlList = soup.find_all('span', class_="friendPlayerLevelNum")
+    if profileLvlList:
+        profileLvl = profileLvlList[0].text.strip()
+        print("Steam level not found: ",profileLvl)
+    else:
+        print("Steam level not found")
+
+
     #Steam page contains multiple "profile_count_link_total"
     #Indexs:
     # 0 - Profile Awards
@@ -24,23 +42,6 @@ def get_steam_info(profile_url):
     # 5 - Guides
     # 6 - Artwork
     # 7 - Friends
-
-    #Retrieves Profile Award Number
-    profileAwardsList = soup.find_all('div', class_="profile_awards")
-    if len(profileAwardsList):
-        profileAwardsList = profileAwardsList[0].find_all('span', class_="profile_count_link_total")
-        profileAwardNumber = profileAwardsList[0].text.strip()
-        print("Profile Awards: ", profileAwardNumber)
-    else:
-        print("Profile Award not found!")
-
-    profileLvlList = soup.find_all('span', class_="friendPlayerLevelNum")
-    if profileLvlList:
-        profileLvl = profileLvlList[0].text.strip()
-        print("Steam level not found: ",profileLvl)
-    else:
-        print("Steam level not found")
-
     profileData = soup.find_all('span', class_="profile_count_link_total")
     profileClasses = soup.find_all('span', class_="count_link_label")
     print("\nCategories Available:")
@@ -55,6 +56,7 @@ def get_steam_info(profile_url):
 # Fetch and display the badges
 data = get_steam_info('https://steamcommunity.com/profiles/76561199243535006') #Random test profile
 #data = get_steam_info('https://steamcommunity.com/profiles/76561199126077786') #Random test profile
+##shit way to do this error prone:
 print("\nSome Information may be hidden")
 print("Profile Awards: ", data[0].text.strip())
 print("Badges: ", data[1].text.strip())
