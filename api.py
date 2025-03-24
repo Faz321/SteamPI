@@ -12,19 +12,24 @@ VanityURL = input("\nEnter Vanity URL: ")
 #shortcut for test case
 if VanityURL == "a":
     VanityURL = "gabelogannewell"
+elif VanityURL == "skip":
+    skip = True
+    steamID = "76561199792929762"
 
-response = requests.get("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key="+API_KEY+"&vanityurl="+VanityURL)
-jsonData = json.loads(response.text)
-if jsonData["response"]["success"] == 1:
-    steamID = jsonData["response"]["steamid"]
-    print("The steamID is",steamID)
-else:
-    raise Exception ("SteamID not found")
+if not skip:
+    response = requests.get("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key="+API_KEY+"&vanityurl="+VanityURL)
+    jsonData = json.loads(response.text)
+    if jsonData["response"]["success"] == 1:
+        steamID = jsonData["response"]["steamid"]
+        print("The steamID is",steamID)
+    else:
+        raise Exception ("SteamID not found")
     
 ##Info from getPlayerSummaries
 response = requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="+API_KEY+"&steamids="+steamID)
 jsonData = json.loads(response.text)
 print("\n"*2,"=" * 10, "User Info", "=" * 10, "\n")
+print(response.text)
 userstate = jsonData["response"]["players"][0]["personastate"]
 match userstate:
     case 0:
@@ -58,6 +63,7 @@ smurfScore = 0
 response = requests.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="+API_KEY+"&steamid="+steamID+"&relationship=friend")
 jsonData = json.loads(response.text)
 numFriends = len(jsonData["friendslist"]["friends"])
+print("Friends: ", numFriends)
 if numFriends >= 100:
     smurfScore += 20
 elif numFriends >= 75:
@@ -71,6 +77,7 @@ elif numFriends >= 20:
 response = requests.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="+API_KEY+"&steamid="+steamID+"&format=json")
 jsonData = json.loads(response.text)
 gamesCount = jsonData["response"]["game_count"]
+print("Games: ", gamesCount)
 if gamesCount >= 51:
     smurfScore += 20
 elif gamesCount >= 50:
