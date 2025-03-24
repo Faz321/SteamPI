@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 #TODO Order of data can be changed, dont hard code data order
 
 def get_steam_info(profile_url):
+    data = {}
     response = requests.get("https://steamcommunity.com/profiles/" + profile_url)
 
     if response.status_code != 200:
@@ -20,6 +21,7 @@ def get_steam_info(profile_url):
         profileAwardsList = profileAwardsList[0].find_all('span', class_="profile_count_link_total")
         profileAwardNumber = profileAwardsList[0].text.strip()
         print("Profile Awards: ", profileAwardNumber)
+        data["Profile Awards"] = int(profileAwardNumber)
     else:
         print("Profile Award not found!")
 
@@ -28,6 +30,7 @@ def get_steam_info(profile_url):
     if profileLvlList:
         profileLvl = profileLvlList[0].text.strip()
         print("Steam level: ",profileLvl)
+        data["Level"] = int(profileLvl)
     else:
         print("Steam level not found")
     
@@ -37,6 +40,7 @@ def get_steam_info(profile_url):
         profileBadgeList = profileBadgeList[0].find_all('span', class_="profile_count_link_total")
         profileBadgeNumber = profileBadgeList[0].text.strip()
         print("Number of Badges: ", profileBadgeNumber)
+        data["Badges"] = int(profileBadgeNumber)
     else:
         print("Steam level not found")
     
@@ -46,6 +50,9 @@ def get_steam_info(profile_url):
         profileGroupNumber = profileGroupList[0].find_all('span', class_="profile_count_link_total")
         profileGroupNumber = profileGroupNumber[0].text.strip()
         print("Group Number: ", profileGroupNumber)
+        data["Groups"] = int(profileGroupNumber)
+    else:
+        print("Groups not found!")
 
     #Retrieves Bans
     #Bans require javascript so cant use basic requests
@@ -57,7 +64,9 @@ def get_steam_info(profile_url):
 
     miso = BeautifulSoup(bansResponse.text, 'html.parser')
     miso = miso.find_all('span', string='bans')
-    
+
+    return data
+
     #Steam page contains multiple "profile_count_link_total"
     #Indexs:
     # 0 - Profile Awards
@@ -68,23 +77,15 @@ def get_steam_info(profile_url):
     # 5 - Guides
     # 6 - Artwork
     # 7 - Friends
-    profileData = soup.find_all('span', class_="profile_count_link_total")
-    profileClasses = soup.find_all('span', class_="count_link_label")
-    print("\nCategories Available:")
-    for i in profileClasses:
-        pass
-        # print(i.text.strip())
 
     #To change, specific tags e.g Badges
     #<span class="count_link_label">Badges</span>
     #Error handling when info hidden
-    return profileData
 
 # Fetch and display the badges
 data = get_steam_info('76561199243535006') #Random test profie
+#data = get_steam_info('76561199126077786') #Random test profile
 
-
-#data = get_steam_info('76561199126077786') #Random test profil
 ##shit way to do this error prone:
 # print("\nSome Information may be hidden")
 # print("Profile Awards: ", data[0].text.strip())

@@ -8,7 +8,6 @@ print("-" * 26,"\n")
 print("Steam Player Investigation\n")
 print("-" * 26,"\n")
 
-
 VanityURL = input("\nEnter Vanity URL: ")
 #shortcut for test case
 if VanityURL == "a":
