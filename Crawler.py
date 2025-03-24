@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 #TODO Order of data can be changed, dont hard code data order
 
 def get_steam_info(profile_url):
-    response = requests.get(profile_url)
+    response = requests.get("https://steamcommunity.com/profiles/" + profile_url)
 
     if response.status_code != 200:
         return f"Error: Unable to access profile (Status Code: {response.status_code})"
@@ -47,6 +47,17 @@ def get_steam_info(profile_url):
         profileGroupNumber = profileGroupNumber[0].text.strip()
         print("Group Number: ", profileGroupNumber)
 
+    #Retrieves Bans
+    #Bans require javascript so cant use basic requests
+    bansResponse = requests.get("https://vaclist.net/account/" + profile_url)
+
+    if bansResponse.status_code != 200:
+        print (f"Error: Unable to access profile (Status Code: {bansResponse.status_code})")
+        return False
+
+    miso = BeautifulSoup(bansResponse.text, 'html.parser')
+    miso = miso.find_all('span', string='bans')
+    
     #Steam page contains multiple "profile_count_link_total"
     #Indexs:
     # 0 - Profile Awards
@@ -70,10 +81,10 @@ def get_steam_info(profile_url):
     return profileData
 
 # Fetch and display the badges
-#data = get_steam_info('https://steamcommunity.com/profiles/76561199243535006') #Random test profile
-data = get_steam_info('https://steamcommunity.com/profiles/76561199126077786') #Random test profile
+data = get_steam_info('76561199243535006') #Random test profie
 
 
+#data = get_steam_info('76561199126077786') #Random test profil
 ##shit way to do this error prone:
 # print("\nSome Information may be hidden")
 # print("Profile Awards: ", data[0].text.strip())
