@@ -22,7 +22,10 @@ def get_steam_info(profile_url):
     # 5 - Guides
     # 6 - Artwork
     # 7 - Friends
-    profileData = soup.findAll('span', class_="profile_count_link_total")
+
+    profileData = soup.findAll('span', class_="profile_count_link_total") 
+    #To change, specific tags e.g Badges
+    #<span class="count_link_label">Badges</span>
     profileBans = soup.findAll()
     return profileData
 
