@@ -3,6 +3,7 @@ import re
 from bs4 import BeautifulSoup
 
 
+#Crawler takes in profile URL and returns profileData
 def get_steam_info(profile_url):
     response = requests.get(profile_url)
 
@@ -26,7 +27,7 @@ def get_steam_info(profile_url):
 
 # Fetch and display the badges
 data = get_steam_info('https://steamcommunity.com/profiles/76561199243535006') #Random test profile
-print(len(data))
+print("Some Information may be hidden")
 print("Profile Awards: ", data[0].text.strip())
 print("Badges: ", data[1].text.strip())
 print("Games: ", data[2].text.strip())
