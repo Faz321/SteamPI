@@ -30,7 +30,6 @@ def getSteamInfo(steamID):
     if len(profileAwardsList):
         profileAwardsList = profileAwardsList[0].find_all('span', class_="profile_count_link_total")
         profileAwardNumber = profileAwardsList[0].text.strip()
-        print("Profile Awards: ", profileAwardNumber)
         data["Profile Awards"] = int(profileAwardNumber)
     else:
         print("Profile Award not found!")
@@ -39,7 +38,6 @@ def getSteamInfo(steamID):
     profileLvlList = soup.find_all('span', class_="friendPlayerLevelNum")
     if profileLvlList:
         profileLvl = profileLvlList[0].text.strip()
-        print("Steam level: ",profileLvl)
         data["Level"] = int(profileLvl)
     else:
         print("Steam level not found")
@@ -49,7 +47,6 @@ def getSteamInfo(steamID):
     if profileBadgeList:
         profileBadgeList = profileBadgeList[0].find_all('span', class_="profile_count_link_total")
         profileBadgeNumber = profileBadgeList[0].text.strip()
-        print("Number of Badges: ", profileBadgeNumber)
         data["Badges"] = int(profileBadgeNumber)
     else:
         print("Steam level not found")
@@ -59,7 +56,6 @@ def getSteamInfo(steamID):
     if profileGroupList:
         profileGroupNumber = profileGroupList[0].find_all('span', class_="profile_count_link_total")
         profileGroupNumber = profileGroupNumber[0].text.strip()
-        print("Group Number: ", profileGroupNumber)
         data["Groups"] = int(profileGroupNumber)
     else:
         print("Groups not found!")
@@ -77,24 +73,9 @@ def getSteamInfo(steamID):
 
     return data
 
-    #Steam page contains multiple "profile_count_link_total"
-    #Indexs:
-    # 0 - Profile Awards
-    # 1 - Badges
-    # 2 - Games
-    # 3 - Inventory
-    # 4 - Reviews
-    # 5 - Guides
-    # 6 - Artwork
-    # 7 - Friends
-
-    #To change, specific tags e.g Badges
-    #<span class="count_link_label">Badges</span>
-    #Error handling when info hidden
-
 # Fetch and display the badges
-data = get_steam_info('76561199243535006') #Random test profie
-#data = get_steam_info('76561199126077786') #Random test profile
+#data = getSteamInfo('76561199243535006') #Random test profie
+#data = getSteamInfo('76561199126077786') #Random test profile
 
 ##shit way to do this error prone:
 # print("\nSome Information may be hidden")

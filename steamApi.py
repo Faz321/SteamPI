@@ -22,7 +22,7 @@ def getApiCalls(steamID, isVanity=False):
 
     data = {}
 
-    if not isVanity:
+    if isVanity:
         #if given vanity URL, gets steamID
         response = requests.get("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key="+API_KEY+"&vanityurl="+steamID)
         jsonData = json.loads(response.text)
@@ -35,8 +35,6 @@ def getApiCalls(steamID, isVanity=False):
     ##Info from getPlayerSummaries - kinda useless 
     response = requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="+API_KEY+"&steamids="+steamID)
     jsonData = json.loads(response.text)
-    print("\n"*2,"=" * 10, "User Info", "=" * 10, "\n")
-    print(response.text)
     userstate = jsonData["response"]["players"][0]["personastate"]
     match userstate:
         case 0:
@@ -55,13 +53,10 @@ def getApiCalls(steamID, isVanity=False):
             print("Current Status: Looking to play")
 
     try:
-        print("Real Name: ", jsonData["response"]["players"][0]["realname"])
-        print("Last login: ", jsonData["response"]["players"][0]["lastlogin"])
+        if (jsonData["response"]["players"][0]["realname"]):
+            data["Real Name"] = jsonData["response"]["players"][0]["realname"]
     except:
         print("Some info may be hidden")
-
-    ##Smurf Probability calculation
-    print("\n"*2, "="*10,"Smurf Probability","="*10)
 
     smurfScore = 0
 
