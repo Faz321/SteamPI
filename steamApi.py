@@ -58,38 +58,18 @@ def getApiCalls(steamID, isVanity=False):
     except:
         print("Some info may be hidden")
 
-    smurfScore = 0
-
     ##Friends Score
     ##Change scouring system later to continous scale
     response = requests.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="+API_KEY+"&steamid="+steamID+"&relationship=friend")
     jsonData = json.loads(response.text)
     numFriends = len(jsonData["friendslist"]["friends"])
     data["Friends"] = numFriends
-    if numFriends >= 100:
-        smurfScore += 20
-    elif numFriends >= 75:
-        smurfScore += 15
-    elif numFriends >= 50:
-        smurfScore += 10
-    elif numFriends >= 20:
-        smurfScore += 5
         
     ##Games Score
     response = requests.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="+API_KEY+"&steamid="+steamID+"&format=json")
     jsonData = json.loads(response.text)
     gamesCount = jsonData["response"]["game_count"]
     data["Games"] = gamesCount
-    if gamesCount >= 51:
-        smurfScore += 20
-    elif gamesCount >= 50:
-        smurfScore += 15
-    elif gamesCount >= 15:
-        smurfScore += 10
-    elif gamesCount >= 10:
-        smurfScore += 5
-    print("\n"," "*15,100 - smurfScore, "%")
-
     return data
 
 
