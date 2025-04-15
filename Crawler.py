@@ -1,5 +1,5 @@
 import requests
-import BeautifulSoup
+from bs4 import BeautifulSoup
 
 
 #Crawler takes in profile URL and returns profileData
