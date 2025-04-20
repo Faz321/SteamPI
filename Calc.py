@@ -32,7 +32,5 @@ if ("Groups") in data:
 if ("Badges") in data:
     points += min(10, (0.6 * data["Badges"]))
 
-print("\n")
-print("Smurf probability: ", 100 - points)
-print("\n")
+print("\nSmurf probability: ", 100 - points)
 print(data)
