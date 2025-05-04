@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SteamPI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <p style="background: #ff0; padding: 0.5em;">Testing</p>
+    <h1>Steam Player Investigation</h1>
+    <p>Enter a SteamID, vanity name, or full profile URL:</p>
+    <form id="steamForm">
+        <input type="text" id="steamid" placeholder="ID, Vanity or URL" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("steamForm").addEventListener("submit", async e => {
+            e.preventDefault();
+            const raw = document.getElementById("steamid").value.trim();
+            const out = document.getElementById("result");
+            out.textContent = "Loading…";
+
+            const qs = new URLSearchParams({ steamid: raw }).toString();
+
+            try {
+                const resp = await fetch(`/api/steam?${qs}`);
+                if (!resp.ok) throw new Error(`Server returned ${resp.status}`);
+                const data = await resp.json();
+
+                if (data.error) {
+                    out.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
+                    return;
+                }
+
+                let html = `<h2>${data.Username}</h2>`;
+                html += `<p><img src="${data.Avatar}" alt="avatar"></p>`;
+                html += `<table>
+                   <tr><th>Real Name</th><td>${data["Real Name"] || '—'}</td></tr>
+                   <tr><th>Status</th><td>${data.Status}</td></tr>
+                   <tr><th>Friends</th><td>${data.Friends}</td></tr>
+                   <tr><th>Games Owned</th><td>${data.Games}</td></tr>
+                   <tr><th>Steam Level</th><td>${data["Steam Level"]}</td></tr>
+                   <tr><th>Badges</th><td>${data["Badges"]}</td></tr>
+                   <tr><th>Groups Count</th><td>${data.groups_count}</td></tr>
+                   <tr><th>Communities Count</th><td>${data.communities_count}</td></tr>`;
+                let risk = data["Smurf Risk %"];
+                let riskLevel = "Low";
+                let color = "green";
+                if (risk > 60) { riskLevel = "High"; color = "red"; }
+                else if (risk > 35) { riskLevel = "Medium"; color = "orange"; }
+
+                html += `<tr><th>Smurf Risk</th><td>
+                            <strong style="color:${color};">${risk}% (${riskLevel})</strong>
+                        </td></tr>`;
+
+                const topGames = data["Top Games"];
+                if (topGames && topGames.length) {
+                    html += `<tr><th>Top Games</th><td><ul>`;
+                    topGames.forEach(g => {
+                        const hours = Math.round(g.minutes / 60);
+                        html += `<li>${g.name} — ${hours} hrs</li>`;
+                    });
+                    html += `</ul></td></tr>`;
+                }
+
+                html += `</table>`;
+                out.innerHTML = html;
+
+            } catch (err) {
+                console.error(err);
+                out.innerHTML = `<p style="color:red;">Failed to fetch data: ${err.message}</p>`;
+            }
+        });
+    </script>
+</body>
+
+</html>
